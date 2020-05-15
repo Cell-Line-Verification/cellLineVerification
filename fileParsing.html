@@ -19,27 +19,27 @@
     <script>
       let testingVar;
 
-      // FOR TEXT
+      // FOR TEXT & JSON
       /*function readFile(file) {
-        let fileReader = new FileReader();
+        let fileReader = new FileReader(); //reads content of file
         fileReader.addEventListener("load", (event) => {
-          testingVar = event.target.result;
-          document.getElementById("display").innerHTML = event.target.result;
+          testingVar = event.target.result; //initialize global var with content (as string)
+          document.getElementById("display").innerHTML = event.target.result; //display on page
         });
-        fileReader.readAsText(file);
+        fileReader.readAsText(file); //reads content as text
       }*/
 
-      // FOR CSV FILES: display as table
+      // FOR CSV FILES (will display as table)
       function readFile(file) {
-        let fileReader = new FileReader();
+        let fileReader = new FileReader(); //reads content of file
         fileReader.addEventListener("load", event => {
-          testingVar = event.target.result;
+          testingVar = event.target.result; //initialize global var with content (as string)
           createTable(event.target.result);
         });
-        fileReader.readAsText(file);
+        fileReader.readAsText(file); //reads content as text
       }
 
-      // create table based on a string of values
+      // create table based on a string of values (return = new row)
       function createTable(text) {
         let allRows = text.split(/\r?\n|\r/);
         let table = "<table>";
@@ -64,7 +64,7 @@
 
       window.onload = () => {
         document.getElementById("upload").addEventListener("change", event => {
-          readFile(event.target.files[0]); //first file selected
+          readFile(event.target.files[0]); //first file selected by user
         });
       };
     </script>
