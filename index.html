@@ -1,31 +1,85 @@
 <!DOCTYPE HTML>
 <html>
+<!--THINGS TO CHECK:
+select input options
+how to do the amelogenin option
+how to display outputs-->
   <head>
-
+    <link rel="stylesheet" href="style.css">
   </head>
   <body>
+    <!--Input box for query file-->
     <div class="input_box">
       <h2 class="input_box_top_title">
         Upload Query File
       </h2>
       <input type="file" id="upload_query_file">
     </div>
+    <!--Input box for selecting how to get the reference file-->
     <div class="input_box">
       <h2 class="input_box_top_title">
         Select Reference
       </h2>
+      <!--Shows user what option is currently selected and other input
+      options required when the dropdown box is hidden, file upload is default-->
       <div class="current_selected_option">
-
+        <label for="upload_reference_file">File Upload</label>
+        <input type="file" id="upload_reference_file">
       </div>
+      <!--Content for the dropdown box, usually hidden-->
       <div class="dropdown_content">
         <div class="dropdown_option">
-
+          <h3 class="option_header">File Upload</h3>
         </div>
         <div class="dropdown_option">
-
+          <h3 class="option_header">Cellosaurus</h3>
         </div>
         <div class="dropdown_option">
-
+          <h3 class="option_header">RedCap</h3>
+        </div>
+      </div>
+    </div>
+    <div class="input_box">
+      <h2 class="input_box_top_title">
+        Algorithm
+      </h2>
+      <!--Shows user what option is currently selected and other input
+      options required when the dropdown box is hidden, file upload is default-->
+      <div class="current_selected_option">
+        <h3 class="selected_option_header">Tanabe</h3>
+      </div>
+      <!--Content for the dropdown box, usually hidden-->
+      <div class="dropdown_content">
+        <div class="dropdown_option">
+          <h3 class="option_header">Tanabe</h3>
+        </div>
+        <div class="dropdown_option">
+          <h3 class="option_header">Masters (vs. reference)</h3>
+        </div>
+        <div class="dropdown_option">
+          <h3 class="option_header">Masters (vs. querry)</h3>
+        </div>
+      </div>
+    </div>
+    <div class="input_box">
+      <h2 class="input_box_top_title">
+        Mode
+      </h2>
+      <!--Shows user what option is currently selected and other input
+      options required when the dropdown box is hidden, file upload is default-->
+      <div class="current_selected_option">
+        <h3 class="selected_option_header">None</h3>
+      </div>
+      <!--Content for the dropdown box, usually hidden-->
+      <div class="dropdown_content">
+        <div class="dropdown_option">
+          <h3 class="option_header">Non-empty markers</h3>
+        </div>
+        <div class="dropdown_option">
+          <h3 class="option_header">Query markers</h3>
+        </div>
+        <div class="dropdown_option">
+          <h3 class="option_header">Reference markers</h3>
         </div>
       </div>
     </div>
