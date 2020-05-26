@@ -13,6 +13,7 @@
 function testLoci(testQ, testR) {
   let shared = 0;
 
+  /*
   // transform alleles to number (int/float) values OR, for amelogenin, to uppercase
   testQ = testQ.map(x => (isNaN(Number(x)) ? x.toUpperCase() : Number(x)));
   testR = testR.map(x => (isNaN(Number(x)) ? x.toUpperCase() : Number(x)));
@@ -22,6 +23,7 @@ function testLoci(testQ, testR) {
   let distinct = (value, index, self) => self.indexOf(value) === index;
   testQ.filter(distinct);
   testR.filter(distinct);
+  */
 
   // test if each allele from the query locus is shared in the reference locus
   for (let allele of testQ) {
