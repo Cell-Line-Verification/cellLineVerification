@@ -7,7 +7,7 @@
 // 0 = non-empty markers, 1 = query markers, 2 = reference markers
 
 // Output:
-// floating point (0 to 1), representing concordance
+// float from 0 to 100 (%), representing concordance
 
 // count number of shared alleles between one query locus and one reference locus
 function testLoci(testQ, testR) {
@@ -91,7 +91,8 @@ function mastersQuery(reference, query, mode, amelogenin = true) {
   if (queryAlleles == 0) {
     return 0;
   }
-  return shared / queryAlleles;
+  //return the amount as a percentage
+  return 100 * (shared / queryAlleles);
 }
 
 // concordance masters vs reference
@@ -152,5 +153,6 @@ function mastersRef(reference, query, mode, amelogenin = true) {
   if (refAlleles == 0) {
     return 0;
   }
-  return shared / refAlleles;
+  //return the amount as a percentage
+  return 100 * (shared / refAlleles);
 }
