@@ -1,86 +1,65 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
-<!--THINGS TO CHECK:
-select input options
-how to do the amelogenin option
-how to display outputs-->
   <head>
-    <link rel="stylesheet" href="style.css">
+
   </head>
   <body>
-    <!--Input box for query file-->
-    <div class="input_box">
-      <h2 class="input_box_top_title">
-        Upload Query File
-      </h2>
-      <input type="file" id="upload_query_file">
+    <div id="uploadBox">
+      <input type="file" id="queryUpload">
+      <h3>Upload Query</h3>
+      <br>
+      <input type="file" id="referenceUpload">
+      <h3>Upload Reference</h3>
     </div>
-    <!--Input box for selecting how to get the reference file-->
-    <div class="input_box">
-      <h2 class="input_box_top_title">
-        Select Reference
-      </h2>
-      <!--Shows user what option is currently selected and other input
-      options required when the dropdown box is hidden, file upload is default-->
-      <div class="current_selected_option">
-        <label for="upload_reference_file">File Upload</label>
-        <input type="file" id="upload_reference_file">
+    <div id="compareSettings">
+      <div id="headerBox">
+        <h2>Comparision Settings</h2>
       </div>
-      <!--Content for the dropdown box, usually hidden-->
-      <div class="dropdown_content">
-        <div class="dropdown_option">
-          <h3 class="option_header">File Upload</h3>
+      <div id="enterSettings">
+        <div id="algorithmContainer" class="optionContainer">
+          <h3 class="optionHeader">Algorithm</h3>
+          <div class="currentOption" id="currentAlgorithm">
+            <h3 id="currentAlgorithmHeader">Tanabe</h3>
+          </div>
+          <image src="drop-down-arrow.jpg">
+          <div class="dropDownOptions" id="algorithmDropDownOptions">
+            <input type="radio" id="tanabeSelect" name="algorithm" value="Tanabe">
+            <p>Tanabe</p>
+            <br>
+            <input type="radio" id="mastersVQuerySelect" name="algorithm" value="Masters (vs. Reference)">
+            <p>Masters (vs. Reference)</p>
+            <br>
+            <input type="radio" id="mastersVRefernceSelect" name="algorithm" value="Masters (vs. Query)">
+            <p>Masters (vs. Query)</p>
+            <br>
+          </div>
         </div>
-        <div class="dropdown_option">
-          <h3 class="option_header">Cellosaurus</h3>
-        </div>
-        <div class="dropdown_option">
-          <h3 class="option_header">RedCap</h3>
+        <div id="algorithmContainer" class="optionContainer">
+          <h3 class="optionHeader">Mode</h3>
+          <div class="currentOption" id="currentMode">
+            <h3 id="currentModeHeader">None</h3>
+          </div>
+          <image src="drop-down-arrow.jpg">
+          <div class="dropDownOptions" id="modeDropDownOptions">
+            <input type="radio" id="nonEmptySelect" name="mode" value="Non-Empty Markers">
+            <p>Non-Empty Markers</p>
+            <br>
+            <input type="radio" id="querySelect" name="mode" value="Query Markers">
+            <p>Query Markers</p>
+            <br>
+            <input type="radio" id="referenceSelect" name="mode" value="Reference Markers">
+            <p>Reference Markers</p>
+            <br>
+            <input type="radio" id="noneSelect" name="mode" value="None">
+            <p>None</p>
+            <br>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="input_box">
-      <h2 class="input_box_top_title">
-        Algorithm
-      </h2>
-      <!--Shows user what option is currently selected and other input
-      options required when the dropdown box is hidden, file upload is default-->
-      <div class="current_selected_option">
-        <h3 class="selected_option_header">Tanabe</h3>
+      <div id="compareButtonContainer">
+        <button>Compare</button>
       </div>
-      <!--Content for the dropdown box, usually hidden-->
-      <div class="dropdown_content">
-        <div class="dropdown_option">
-          <h3 class="option_header">Tanabe</h3>
-        </div>
-        <div class="dropdown_option">
-          <h3 class="option_header">Masters (vs. reference)</h3>
-        </div>
-        <div class="dropdown_option">
-          <h3 class="option_header">Masters (vs. querry)</h3>
-        </div>
-      </div>
-    </div>
-    <div class="input_box">
-      <h2 class="input_box_top_title">
-        Mode
-      </h2>
-      <!--Shows user what option is currently selected and other input
-      options required when the dropdown box is hidden, file upload is default-->
-      <div class="current_selected_option">
-        <h3 class="selected_option_header">None</h3>
-      </div>
-      <!--Content for the dropdown box, usually hidden-->
-      <div class="dropdown_content">
-        <div class="dropdown_option">
-          <h3 class="option_header">Non-empty markers</h3>
-        </div>
-        <div class="dropdown_option">
-          <h3 class="option_header">Query markers</h3>
-        </div>
-        <div class="dropdown_option">
-          <h3 class="option_header">Reference markers</h3>
-        </div>
+      <div id="results">
       </div>
     </div>
   </body>
