@@ -1,17 +1,100 @@
-body{
-background-color:  #c2cef8;
-}
 
-h2, h3 {
-  color:  #696969
-}
+  #greyBox {
+    top: 250px;
+    width: 50%;
+    width: 500px;
+    height: 500px;
+    background-color: #e0e0e0;
+    text-align: center;
+    left: 75px;
+    position: absolute;
 
-#uploadBox {
-      border-radius: 25px;
-     padding: 20px;
-     width: 200px;
-     height: 150px;
-     background-color:#0b445c;
-     color:white
-}
+  }
+
+  #whiteBox {
+    width: 50%;
+    height: 750px;
+    background-color: white;
+    text-align: center;
+    left: 325px;
+    position: absolute;
+
+  }
+
+  .optionHeader {
+    left: 10px;
+    color: black;
+    position: absolute;
+  }
+
+  #currentAlgorithmHeader,
+  #currentModeHeader {
+    right: 10px;
+    color: black;
+    position: absolute;
+
+  }
+
+  #headerBox {
+    background-color: #bababa;
+    height: 50px;
+    text-align: center;
+
+  }
+
+  body {
+    background-color: #c2cef8;
+
+  }
+
+  h1,
+  h4 {
+    text-align: center;
+
+  }
+
+  h2,
+  h3 {
+    color: black;
+  }
+
+  .dropDownOptions {
+    display: none;
+  }
+
+  #uploadBox {
+    width: 20px;
+  }
+
+
+
+  #queryUpload {
+    border-radius: 25px;
+    border: 2px solid gray;
+    color: gray;
+    background-color: white;
+    font-size: 15px;
+    font-weight: bold;
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+
+
+
+  }
+
+  #referenceUpload {
+
+    border-radius: 25px;
+    border: 2px solid gray;
+    color: gray;
+    background-color: white;
+    font-size: 15px;
+    font-weight: bold;
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+
+
+  }
 
