@@ -70,13 +70,13 @@ function csvHandeling(array){
     for(let x = 0; x < array.length; x++){
         array[x] = array[x].split(",");
     }
-    //finds which column has AM (the first loci) and deletes all the garbage before it 
+    //finds which column has mod_id and deletes all the garbage before it, deletes everything between mod_id and AM, deletes everything after the last loci
     let correctColumn = 0;
     while(array[0][correctColumn] != "mod_id"){
         correctColumn ++;
     }
     for(let y = 0; y < array.length; y++){
-        array[y].splice(0,correctColumn - 1);
+        array[y].splice(0,correctColumn);
     }
     correctColumn = 0; 
     while(array[0][correctColumn] != "AM"){
@@ -86,6 +86,16 @@ function csvHandeling(array){
     for(let y = 0; y < array.length; y++){
         array[y].splice(1,correctColumn - 1);
     }
+    correctColumn = 0;
+    for(x = 0; x < array[0].length; x++){
+        if(array[0][x].slice(0,3) == "mod" && array[0][x] != "mod_id"){
+            correctColumn = x;
+        }
+    }
+    for(let y = 0; y < array.length; y++){
+        array[y].splice(correctColumn,array[0].length - 1);
+    }
+
     for(y = 0; y < array.length; y++){
         for(x = 0; x < array[y].length; x++){
             for(z = 0; z < array[y][x].length; z++){
@@ -113,6 +123,16 @@ function csvHandeling(array){
         tempObj.loci = loci;
         tempObj.modelIdentification = array[y][0];
         objArray[y - 1] = tempObj;
+    }
+    for(let y = 0; y < objArray.length; y++){
+        if(objArray[y].modelIdentification === "" || objArray[y].modelIdentification === undefined || objArray[y].modelIdentification === null || objArray[y].modelIdentification === "<empty string>"){
+            objArray.splice(y,1);
+        }
+    }
+    for(let y = 0; y < objArray.length; y++){
+        if(objArray[y].modelIdentification === "" || objArray[y].modelIdentification === undefined || objArray[y].modelIdentification === null || objArray[y].modelIdentification === "<empty string>"){
+            objArray.splice(y,1);
+        }
     }
     console.log(objArray);
     return objArray;
