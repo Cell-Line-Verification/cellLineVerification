@@ -1,11 +1,10 @@
 //Parses through file uploaded and gets back STR Fingerprint
-
 //file upload for query data 
 
 
-
 window.onload = () => {
-    document.getElementById("upload").addEventListener("change", event => {
+    //gets input space, adds event listener for on change, should change to on submit once html is finished
+    document.getElementById("queryUpload").addEventListener("change", event => {
         fileGrab(event.target.files[0]); //first file selected by user
       });
 
@@ -22,22 +21,26 @@ function fileGrab(file){
     //initiates file parsing
     fileParse(stringResults, fileType);
     });
-    fileReader.readAsText(file); //reads content as text
+    fileReader.readAsText(file); //reads content as text to activate load for event listener 
 }
 function fileParse(stringResults, fileType){
-        //should convert file data into array for formating 
         if(fileType === "csv"){
+            //if its cvs split it into an array based upon new lines, each element of array is a row in file
             let valuesArray = stringResults.split(/\r?\n|\r/);
+            //passes it to handeling for cvs files
             return csvHandeling(valuesArray);
         }
         else if(fileType === "json"){
+            //if its a json file then use built in parsing and return parsed object
             let jsonObj = JSON.parse(stringResults);
             return jsonObj;
         }
         else{
-            //yeild error because wrong file type 
+            //yeild error because wrong file type
+            alert("incorrect file type: please enter a JSON or CVS file and try again.");
         }
 }
+//method to replace characters in a string based upon index
 String.prototype.replaceAt = function(index, replacement) {
 	if (index >= this.length) {
 		return this.valueOf();
@@ -48,6 +51,7 @@ String.prototype.replaceAt = function(index, replacement) {
 
 function csvHandeling(array){
     //needs to clean extra commas to keep data together 
+    //there are commas within cells so it switches them with "|" to avoid splitting the cells
     let isComma = false;
     for(y = 0; y < array.length; y++){
         for(x = 0; x < array[y].length; x++){
@@ -66,16 +70,7 @@ function csvHandeling(array){
     for(let x = 0; x < array.length; x++){
         array[x] = array[x].split(",");
     }
-    
-    // for(let y = 0; y < array.length; y++){
-    //     console.log(array.length, y);
-    //     console.log(array);
-    //     for(let x = 0; x < array[0].length; y++){
-    //         array[y][x].replace("\"","");
-    //         array[y][x].replace("\\","");
-    //     }
-    // }
-
+    //finds which column has AM (the first loci) and deletes all the garbage before it 
     let correctColumn = 0;
     while(array[0][correctColumn] != "AM"){
         correctColumn ++;
@@ -85,7 +80,6 @@ function csvHandeling(array){
     for(let y = 0; y < array.length; y++){
         array[y].splice(1,correctColumn);
     }
-    console.log(array);
 
     //object maker 
     let objArray = [];
@@ -94,12 +88,13 @@ function csvHandeling(array){
         tempObj = {}
         loci  = {};
         for(x = 1; x < array[y].length; x++){
-            loci[array[0][x]] = array[y][x];
+            loci[array[0][x]] = [array[y][x]];
         }
-        tempObj.loci = loci
-        tempObj.modelIdentification = array[y][0]
+        tempObj.loci = loci;
+        tempObj.modelIdentification = array[y][0];
         objArray[y - 1] = tempObj;
     }
     console.log(objArray);
+    return objArray;
 }
 
