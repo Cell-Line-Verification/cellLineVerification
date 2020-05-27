@@ -41,7 +41,9 @@
 
       // create table based on a string of values (return = new row)
       function createTable(text) {
+        console.log(text, typeof(text));
         let allRows = text.split(/\r?\n|\r/);
+        console.log(allRows);
         let table = "<table>";
         let prefix;
         for (let rowNum = 0; rowNum < allRows.length; rowNum++) {
