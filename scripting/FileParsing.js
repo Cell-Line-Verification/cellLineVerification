@@ -62,7 +62,7 @@ function csvHandeling(array){
                 isComma = false;
             }
             if(isComma && array[y].charAt(x) == ","){
-                array[y] = array[y].replaceAt(x,"|");
+                array[y] = array[y].replaceAt(x,"^");
             }
         }
     }
@@ -72,15 +72,35 @@ function csvHandeling(array){
     }
     //finds which column has AM (the first loci) and deletes all the garbage before it 
     let correctColumn = 0;
+    while(array[0][correctColumn] != "mod_id"){
+        correctColumn ++;
+    }
+    for(let y = 0; y < array.length; y++){
+        array[y].splice(0,correctColumn - 1);
+    }
+    correctColumn = 0; 
     while(array[0][correctColumn] != "AM"){
         correctColumn ++;
     }
-    console.log(correctColumn);
 
     for(let y = 0; y < array.length; y++){
-        array[y].splice(1,correctColumn);
+        array[y].splice(1,correctColumn - 1);
     }
-
+    for(y = 0; y < array.length; y++){
+        for(x = 0; x < array[y].length; x++){
+            for(z = 0; z < array[y][x].length; z++){
+                if(array[y][x].charAt(z) == "\""){
+                    array[y][x] = array[y][x].substr(1);
+                    array[y][x] = array[y][x].substr(0, array[y][x].length - 1);
+                }
+            }
+        }
+    }
+    for(y = 0; y < array.length; y++){
+        for(x = 1; x < array[y].length; x++){
+            array[y][x] = array[y][x].split("^");
+        }
+    }
     //object maker 
     let objArray = [];
     let loci = {};
