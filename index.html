@@ -1,76 +1,70 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-  <link rel="stylesheet" href="style.css">
-  <title> Cell Line Verification </title>
-</head>
-
-<body>
-  <div id="whiteBox">
-    <h1>Cell Line Verification</h1>
-
+  <head>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
     <div id="uploadBox">
-      <h4>Upload Query</h4>
-     <input type="file" id="queryUpload" Upload Query>
+      <input type="file" id="queryUpload">
+      <h3>Upload Query</h3>
       <br>
-      <input type="file" id="referenceUpload" Upload Reference>
-      <h4>Upload Reference</h4>
-
+      <input type="file" id="referenceUpload">
+      <h3>Upload Reference</h3>
     </div>
-    <div id="greyBox">
     <div id="compareSettings">
       <div id="headerBox">
-        <h2>Comparision Settings</2>
+        <h2>Comparision Settings</h2>
       </div>
       <div id="enterSettings">
         <div id="algorithmContainer" class="optionContainer">
           <h3 class="optionHeader">Algorithm</h3>
           <div class="currentOption" id="currentAlgorithm">
             <h3 id="currentAlgorithmHeader">Tanabe</h3>
+            <image src="drop-down-arrow.jpg" id="algorithmDropDownButton"
+            data-opensMenu="algorithmDropDownOptions" data-showsOptionSelectedIn="currentAlgorithmHeader"
+            data-optionsName="algorithm">
           </div>
-          <image src="drop-down-arrow.jpg">
-            <div class="dropDownOptions" id="algorithmDropDownOptions">
-              <input type="radio" id="tanabeSelect" name="algorithm" value="Tanabe">
-              <p>Tanabe</p>
-              <br>
-              <input type="radio" id="mastersVQuerySelect" name="algorithm" value="Masters (vs. Reference)">
-              <p>Masters (vs. Reference)</p>
-              <br>
-              <input type="radio" id="mastersVRefernceSelect" name="algorithm" value="Masters (vs. Query)">
-              <p>Masters (vs. Query)</p>
-              <br>
-            </div>
+          <div class="dropDownOptions" id="algorithmDropDownOptions">
+            <input type="radio" id="tanabeSelect" name="algorithm" value="Tanabe">
+            <p>Tanabe</p>
+            <br>
+            <input type="radio" id="mastersVQuerySelect" name="algorithm" value="Masters (vs. Reference)">
+            <p>Masters (vs. Reference)</p>
+            <br>
+            <input type="radio" id="mastersVRefernceSelect" name="algorithm" value="Masters (vs. Query)">
+            <p>Masters (vs. Query)</p>
+            <br>
+          </div>
         </div>
         <div id="algorithmContainer" class="optionContainer">
           <h3 class="optionHeader">Mode</h3>
           <div class="currentOption" id="currentMode">
             <h3 id="currentModeHeader">None</h3>
+            <image src="drop-down-arrow.jpg" id="modeDropDownButton"
+            data-opensMenu="modeDropDownOptions" data-showsOptionSelectedIn="currentModeHeader"
+            data-optionsName="mode">
           </div>
-          <image src="drop-down-arrow.jpg">
-            <div class="dropDownOptions" id="modeDropDownOptions">
-              <input type="radio" id="nonEmptySelect" name="mode" value="Non-Empty Markers">
-              <p>Non-Empty Markers</p>
-              <br>
-              <input type="radio" id="querySelect" name="mode" value="Query Markers">
-              <p>Query Markers</p>
-              <br>
-              <input type="radio" id="referenceSelect" name="mode" value="Reference Markers">
-              <p>Reference Markers</p>
-              <br>
-              <input type="radio" id="noneSelect" name="mode" value="None">
-              <p>None</p>
-              <br>
-            </div>
+          <div class="dropDownOptions" id="modeDropDownOptions">
+            <input type="radio" id="nonEmptySelect" name="mode" value="Non-Empty Markers">
+            <p>Non-Empty Markers</p>
+            <br>
+            <input type="radio" id="querySelect" name="mode" value="Query Markers">
+            <p>Query Markers</p>
+            <br>
+            <input type="radio" id="referenceSelect" name="mode" value="Reference Markers">
+            <p>Reference Markers</p>
+            <br>
+            <input type="radio" id="noneSelect" name="mode" value="None">
+            <p>None</p>
+            <br>
+          </div>
         </div>
       </div>
       <div id="compareButtonContainer">
         <button>Compare</button>
       </div>
-    </div>
       <div id="results">
       </div>
     </div>
-  </div>
-</body>
+  </body>
 </html>
