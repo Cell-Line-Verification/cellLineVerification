@@ -1,5 +1,5 @@
 //Parses through file uploaded and gets back STR Fingerprint
-//file upload for query data 
+//file upload for reference data 
 
 
 window.onload = () => {
