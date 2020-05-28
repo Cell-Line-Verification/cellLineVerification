@@ -1,4 +1,3 @@
-// Team 2: David + Austin
 // Masters Concordance Calculations
 
 // Input Paramaters:
