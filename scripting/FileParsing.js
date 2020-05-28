@@ -25,9 +25,9 @@ function fileGrab(file){
 }
 function fileParse(stringResults, fileType){
         if(fileType === "csv"){
-            //if its cvs split it into an array based upon new lines, each element of array is a row in file
+            //if its csv split it into an array based upon new lines, each element of array is a row in file
             let valuesArray = stringResults.split(/\r?\n|\r/);
-            //passes it to handeling for cvs files
+            //passes it to handeling for csv files
             return csvHandeling(valuesArray);
         }
         else if(fileType === "json"){
