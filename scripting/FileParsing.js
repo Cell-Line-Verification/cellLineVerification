@@ -32,8 +32,7 @@
           }
           else if(fileType === "json"){
               //if its a json file then use built in parsing and return parsed object
-              let jsonObj = JSON.parse(stringResults);
-              return jsonObj;
+              return(JSON.parse(stringResults));
           }
           else{
               //yeild error because wrong file type
