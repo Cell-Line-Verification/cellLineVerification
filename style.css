@@ -1,100 +1,62 @@
 
-  #greyBox {
-    top: 250px;
-    width: 50%;
-    width: 500px;
-    height: 500px;
-    background-color: #e0e0e0;
-    text-align: center;
-    left: 75px;
-    position: absolute;
+html {
+  margin: 0px;
+  padding:0px;
+  background-color: #8A2BE2;
+  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+}
 
-  }
+body {
+  width: 55%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  background-color: #ffffff;
+  padding: 20px;
+}
 
-  #whiteBox {
-    width: 50%;
-    height: 750px;
-    background-color: white;
-    text-align: center;
-    left: 325px;
-    position: absolute;
+#uploadBox h3 {
+  display: inline;
+}
 
-  }
+#compareSettings {
+  border-radius: 15px;
+  background-color: #ebeced;
+  margin-top: 30px;
+}
 
-  .optionHeader {
-    left: 10px;
-    color: black;
-    position: absolute;
-  }
+#headerBox {
+  background-color: #c6c9cc;
+  padding: 10px;
+  border-radius: 15px 15px 0px 0px;
+}
 
-  #currentAlgorithmHeader,
-  #currentModeHeader {
-    right: 10px;
-    color: black;
-    position: absolute;
+.optionContainer h3 {
+  display: inline-block;
+}
 
-  }
+.dropDownOptions p {
+  display: inline-block;
+}
 
-  #headerBox {
-    background-color: #bababa;
-    height: 50px;
-    text-align: center;
+.currentOption {
+  background-color: #d9dcde;
+  border: 3px solid #d9dcde;
+  border-radius: 8px
+}
 
-  }
+.dropDownOptions {
 
-  body {
-    background-color: #c2cef8;
+}
 
-  }
+#compareButtonContainer {
+  background-color: #c6c9cc;
+  padding: 10px;
+  border: 3px solid #c6c9cc;
+  border-radius: 0px 0px 15px 15px;
+}
 
-  h1,
-  h4 {
-    text-align: center;
+#compareButtonContainer {
 
-  }
-
-  h2,
-  h3 {
-    color: black;
-  }
-
-  .dropDownOptions {
-    display: none;
-  }
-
-  #uploadBox {
-    width: 20px;
-  }
-
-
-
-  #queryUpload {
-    border-radius: 25px;
-    border: 2px solid gray;
-    color: gray;
-    background-color: white;
-    font-size: 15px;
-    font-weight: bold;
-    position: relative;
-    overflow: hidden;
-    display: inline-block;
-
-
-
-  }
-
-  #referenceUpload {
-
-    border-radius: 25px;
-    border: 2px solid gray;
-    color: gray;
-    background-color: white;
-    font-size: 15px;
-    font-weight: bold;
-    position: relative;
-    overflow: hidden;
-    display: inline-block;
-
-
-  }
-
+}
