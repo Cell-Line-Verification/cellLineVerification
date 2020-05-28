@@ -129,11 +129,7 @@ function csvHandeling(array){
     for(let y = 0; y < objArray.length; y++){
         if(objArray[y].modelIdentification === "" || objArray[y].modelIdentification === undefined || objArray[y].modelIdentification === null || objArray[y].modelIdentification === "<empty string>"){
             objArray.splice(y,1);
-        }
-    }
-    for(let y = 0; y < objArray.length; y++){
-        if(objArray[y].modelIdentification === "" || objArray[y].modelIdentification === undefined || objArray[y].modelIdentification === null || objArray[y].modelIdentification === "<empty string>"){
-            objArray.splice(y,1);
+            y--;
         }
     }
     console.log(objArray);
