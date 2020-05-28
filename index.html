@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
+    <!--Box for uploading the query and reference files-->
     <div id="uploadBox">
       <input type="file" id="queryUpload">
       <h3>Upload Query</h3>
@@ -12,18 +13,17 @@
       <h3>Upload Reference</h3>
     </div>
     <div id="compareSettings">
+      <!--Title box for the compare settings box-->
       <div id="headerBox">
         <h2>Comparision Settings</h2>
       </div>
       <div id="enterSettings">
+        <!--Container for algorithm options and header-->
         <div id="algorithmContainer" class="optionContainer">
-          <h3 class="optionHeader">Algorithm</h3>
-          <div class="currentOption" id="currentAlgorithm">
-            <h3 id="currentAlgorithmHeader">Tanabe</h3>
-            <image src="drop-down-arrow.jpg" id="algorithmDropDownButton"
-            data-opensMenu="algorithmDropDownOptions" data-showsOptionSelectedIn="currentAlgorithmHeader"
-            data-optionsName="algorithm">
+          <div class="optionHeader" id="algorithmHeaderContainer">
+            <h3>Algorithm</h3>
           </div>
+          <!--Options for algorithm-->
           <div class="dropDownOptions" id="algorithmDropDownOptions">
             <input type="radio" id="tanabeSelect" name="algorithm" value="Tanabe">
             <p>Tanabe</p>
@@ -36,14 +36,12 @@
             <br>
           </div>
         </div>
-        <div id="algorithmContainer" class="optionContainer">
-          <h3 class="optionHeader">Mode</h3>
-          <div class="currentOption" id="currentMode">
-            <h3 id="currentModeHeader">None</h3>
-            <image src="drop-down-arrow.jpg" id="modeDropDownButton"
-            data-opensMenu="modeDropDownOptions" data-showsOptionSelectedIn="currentModeHeader"
-            data-optionsName="mode">
+        <!--Container for mode options and header-->
+        <div id="modeContainer" class="optionContainer">
+          <div class="optionHeader" id="modeHeaderContainer">
+            <h3>Mode</h3>
           </div>
+            <!--Options for mode-->
           <div class="dropDownOptions" id="modeDropDownOptions">
             <input type="radio" id="nonEmptySelect" name="mode" value="Non-Empty Markers">
             <p>Non-Empty Markers</p>
@@ -60,6 +58,7 @@
           </div>
         </div>
       </div>
+      <!--Container for the compare button that will generate-->
       <div id="compareButtonContainer">
         <button>Compare</button>
       </div>
