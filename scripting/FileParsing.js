@@ -86,14 +86,17 @@ function csvHandeling(array){
     for(let y = 0; y < array.length; y++){
         array[y].splice(1,correctColumn - 1);
     }
+    console.log(array);
     correctColumn = 0;
     for(x = 0; x < array[0].length; x++){
         if(array[0][x].slice(0,3) == "mod" && array[0][x] != "mod_id"){
             correctColumn = x;
         }
     }
-    for(let y = 0; y < array.length; y++){
-        array[y].splice(correctColumn,array[0].length - 1);
+    if(correctColumn > 0){
+        for(let y = 0; y < array.length; y++){
+            array[y].splice(correctColumn,array[0].length - 1);
+        }
     }
 
     for(y = 0; y < array.length; y++){
