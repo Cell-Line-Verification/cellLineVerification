@@ -2,6 +2,23 @@
 // The mode is an int with 0 being non-empty markers, 1 being query markers, and 2 being reference markers.
 function tanabe(reference, query, mode, amelogenin = true) {
   
+  //figures out which name for amelogenin is being used in the refernce
+  let referenceAmelogeninName = " ";
+  for (let i = 0; i < Object.keys(reference.loci).length; i++) {
+    if (Object.keys(reference.loci)[i] in ["Am", "AM", "am", "Amelogenin", "amelogenin"]) {
+      referenceAmelogeninName = Object.keys(reference.loci)[1];
+    }
+  }
+  
+  //figures out which name for amelogenin is being used in the refernce
+  let queryAmelogeninName = " ";
+  for (let i = 0; i < Object.keys(query.loci).length; i++) {
+    if (Object.keys(query.loci)[i] in ["Am", "AM", "am", "Amelogenin", "amelogenin"]) {
+      queryAmelogeninName = Object.keys(query.loci)[1];
+    }
+  }
+
+  
   let numSharedAlleles = 0;
   let numReferenceAlleles = 0;
   let numQueryAlleles = 0;
@@ -12,28 +29,39 @@ function tanabe(reference, query, mode, amelogenin = true) {
     for (let i = 0; i < Object.keys(query.loci).length; i++) {
       let keyName = Object.keys(query.loci)[i];
       
-      //strides through all the shared locations
-      if (keyName in query.loci && keyName in reference.loci) {
+      //strides through all the shared locations but not amelogenin
+      if (keyName in query.loci && keyName in reference.loci && keyName != queryAmelogeninName) {
         if (query.loci[keyName].length > 0 && reference.loci[keyName].length > 0) {
           
           //calculates the num of shared alleles
-          if !(amelogenin == false && keyName == "Amelogenin") {
-            for (let j = 0; j < query.loci[keyName].length; j++) {
-              if (reference.loci[keyName].includes(query.loci[keyName][j])) {
-                numSharedAlleles++;
-              }
+          for (let j = 0; j < query.loci[keyName].length; j++) {
+            if (reference.loci[keyName].includes(query.loci[keyName][j])) {
+              numSharedAlleles++;
             }
           }
           
           //calculates the number of query alleles
-          if !(amelogenin == false && keyName == "Amelogenin") {
-            numQueryAlleles += query.loci[keyName].length;
-          }
+          numQueryAlleles += query.loci[keyName].length;
           
           //claculates the number of reference alleles
-          if !(amelogenin == false && keyName == "Amelogenin") {
-            numReferenceAlleles += reference.loci[keyName].length;
+          numReferenceAlleles += reference.loci[keyName].length;
+        }
+      } else if (keyName == queryAmelogeninName && referenceAmelogeninName != " " && amelogenin) {
+        //in the case that we consider amelogenin
+        if (query.loci[keyName].length > 0 && reference.loci[referenceAmelogeninName].length > 0) {
+          
+          //calculates the num of shared alleles
+          for (let j = 0; j < query.loci[keyName].length; j++) {
+            if (reference.loci[referenceAmelogeninName].includes(query.loci[keyName][j])) {
+              numSharedAlleles++;
+            }
           }
+          
+          //calculates the number of query alleles
+          numQueryAlleles += query.loci[keyName].length;
+          
+          //claculates the number of reference alleles
+          numReferenceAlleles += reference.loci[referenceAmelogeninName].length;
         }
       }
     }
@@ -44,12 +72,28 @@ function tanabe(reference, query, mode, amelogenin = true) {
     for (let i = 0; i < Object.keys(query.loci).length; i++) {
       let keyName = Object.keys(query.loci)[i];
       
-      //strides through all the shared locations
-      if (query.loci[keyName].length > 0) {
-
+      //strides through all the query specific locations but not amelogenin
+      if (query.loci[keyName].length > 0 && keyName != queryAmelogeninName) {
         //calculates the num of shared alleles
         if (keyName in reference.loci) {
-          if !(amelogenin == false && keyName == "Amelogenin") {
+          for (let j = 0; j < query.loci[keyName].length; j++) {
+            if (reference.loci[keyName].includes(query.loci[keyName][j])) {
+              numSharedAlleles++;
+            }
+          }
+        }
+
+        //calculates the number of query alleles
+        numQueryAlleles += query.loci[keyName].length;
+
+        //claculates the number of reference alleles
+        numReferenceAlleles += reference.loci[keyName].length;
+      } else if (keyName == queryAmelogeninName && referenceAmelogeninName != " " && amelogenin) {
+        //in the case that we consider amelogenin
+        if (query.loci[keyName].length > 0 && reference.loci[referenceAmelogeninName].length > 0) {
+          
+        if (keyName in reference.loci) {
+          if !(amelogenin == false && keyName == amelogeninName) {
             for (let j = 0; j < query.loci[keyName].length; j++) {
               if (reference.loci[keyName].includes(query.loci[keyName][j])) {
                 numSharedAlleles++;
@@ -57,17 +101,12 @@ function tanabe(reference, query, mode, amelogenin = true) {
             }
           }
         }
-
+          
         //calculates the number of query alleles
-        if !(amelogenin == false && keyName == "Amelogenin") {
-          numQueryAlleles += query.loci[keyName].length;
-        }
+        numQueryAlleles += query.loci[keyName].length;
 
         //claculates the number of reference alleles
-        if (keyName in reference.loci) {
-          if !(amelogenin == false && keyName == "Amelogenin") {
-            numReferenceAlleles += reference.loci[keyName].length;
-          }
+        numReferenceAlleles += reference.loci[referenceAmelogeninName].length;
         }
       }
     }
@@ -83,7 +122,7 @@ function tanabe(reference, query, mode, amelogenin = true) {
 
         //calculates the num of shared alleles
         if (keyName in query.loci) {
-          if !(amelogenin == false && keyName == "Amelogenin") {
+          if !(amelogenin == false && keyName == amelogeninName) {
             for (let j = 0; j < reference.loci[keyName].length; j++) {
               if (query.loci[keyName].includes(reference.loci[keyName][j])) {
                 numSharedAlleles++;
@@ -93,13 +132,13 @@ function tanabe(reference, query, mode, amelogenin = true) {
         }
 
         //calculates the number of reference alleles
-        if !(amelogenin == false && keyName == "Amelogenin") {
+        if !(amelogenin == false && keyName == amelogeninName) {
           numReferenceAlleles += reference.loci[keyName].length;
         }
 
         //claculates the number of query alleles
         if (keyName in query.loci) {
-          if !(amelogenin == false && keyName == "Amelogenin") {
+          if !(amelogenin == false && keyName == amelogeninName) {
             numQueryAlleles += query.loci[keyName].length;
           }
         }
