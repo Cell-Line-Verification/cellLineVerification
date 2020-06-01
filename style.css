@@ -16,6 +16,10 @@ body {
   padding: 20px;
 }
 
+.fileUploadContainer {
+  margin-top: 7px;
+}
+
 #uploadBox h3 {
   display: inline;
 }
@@ -29,7 +33,16 @@ body {
 #headerBox {
   background-color: #c6c9cc;
   padding: 10px;
+  padding-left: 20px;
   border-radius: 15px 15px 0px 0px;
+}
+
+#amelogeninCheckboxContainer {
+  padding-left: 20px;
+}
+
+#amelogeninCheckboxContainer p {
+  display: inline-block;
 }
 
 .optionContainer h3 {
@@ -45,10 +58,11 @@ body {
   border: 3px solid #d9dcde;
   border-radius: 8px;
   padding-left: 10px;
+  padding-left: 20px;
 }
 
 .dropDownOptions {
-
+  padding-left: 30px;
 }
 
 #compareButtonContainer {
@@ -58,6 +72,9 @@ body {
   border-radius: 0px 0px 15px 15px;
 }
 
-#compareButtonContainer {
-
+#compareButtonContainer button {
+  border: none;
+  border-radius: 5px;
+  width: 25%;
+  height: 30px;
 }
