@@ -1,5 +1,8 @@
 // This function takes in the parameters for a tanabe-style reference and returns the concordance amount.
 // The mode is an int with 0 being non-empty markers, 1 being query markers, and 2 being reference markers.
+window.onload = () => {
+  console.log(tanabe(ref,query,0,true));
+};
 function tanabe(reference, query, mode, amelogenin = true) {
   
   let numSharedAlleles = 0;
@@ -281,137 +284,34 @@ function mastersRef(reference, query, mode, amelogenin = true) {
 //Parses through file uploaded and gets back STR Fingerprint
 //file upload for query data 
 
+let ref = [
+{loci: {"AM" : ["x"], "CSF1PO" : ["12"], "D2S1338" : ["17"], "D3S1358" : ["16"], "D5S818" : ["13"], "D7S820" : ["10, 12"], "D8S1179" : ["14", "15"], "D13S317" : ["11"], "D16S539" : ["10"], "D18S51" : ["16"], "D19S433" : ["14"], "D21S11" : ["29"], "FGA" : ["25"], "Penta D" : ["15"], "Penta E" : ["12"], "TH01" : ["8"], "TPOX" : ["8", "9"], "vWA" : ["16", "18"]},
+modelIdentification : "CVCL_1258"	}, {loci: {
+		"Amel" : ["X"],
+		'CSF1PO' : ["12"],
+		'D2S1338' : ["17","19"],
+		'D3S1358' : ["15","16"],
+		'D5S818': ["13"],
+		'D7S820': ["12"],
+		'D8S1179': ["10"],
+		'D13S317': ["11"],
+		'D16S539': ["10","12"],
+		'D18S51': ["13","15"],
+		'D19S433': ["13"],
+		'D21S11': ["30"],
+		'FGA': ["20"],
+		"Penta D": ["11"],
+		"Penta E": ["8","12"],
+		'TH01': ["8"],
+		'TPOX': ["8","11"],
+		'vWA': ["16","18"]
+	},
+	modelIdentification: "CVCL_1352",
+},
+]
 
-window.onload = () => {
-    //gets input space, adds event listener for on change, should change to on submit once html is finished
-    document.getElementById("queryUpload").addEventListener("change", event => {
-        fileGrab(event.target.files[0]); //first file selected by user
-      });
 
-  };
-function fileGrab(file){
-    //grabs file info as stringResults
-    let fileReader = new FileReader(); //reads content of file
-    fileReader.addEventListener("load",event => {
-    let stringResults = event.target.result;
 
-    //decide what file type it is
-    let fileType  = file.name.split(".").pop();
-
-    //initiates file parsing
-    fileParse(stringResults, fileType);
-    });
-    fileReader.readAsText(file); //reads content as text to activate load for event listener 
-}
-function fileParse(stringResults, fileType){
-        if(fileType === "csv"){
-            //if its csv split it into an array based upon new lines, each element of array is a row in file
-            let valuesArray = stringResults.split(/\r?\n|\r/);
-            //passes it to handeling for csv files
-            return csvHandeling(valuesArray);
-        }
-        else if(fileType === "json"){
-            //if its a json file then use built in parsing and return parsed object
-            let jsonObj = JSON.parse(stringResults);
-            return jsonObj;
-        }
-        else{
-            //yeild error because wrong file type
-            alert("incorrect file type: please enter a JSON or CVS file and try again.");
-        }
-}
-//method to replace characters in a string based upon index
-String.prototype.replaceAt = function(index, replacement) {
-	if (index >= this.length) {
-		return this.valueOf();
-	}
-
-	return this.substring(0, index) + replacement + this.substring(index + 1);
-}
-
-function csvHandeling(array){
-    //needs to clean extra commas to keep data together 
-    //there are commas within cells so it switches them with "|" to avoid splitting the cells
-    let isComma = false;
-    for(y = 0; y < array.length; y++){
-        for(x = 0; x < array[y].length; x++){
-            if(array[y].charAt(x) == "\""  && !isComma){
-                isComma = true;
-            }
-            else if(array[y].charAt(x) == "\""  && isComma){
-                isComma = false;
-            }
-            if(isComma && array[y].charAt(x) == ","){
-                array[y] = array[y].replaceAt(x,"^");
-            }
-        }
-    }
-    //breaks array into multidimentional array - essentially a grid same as the excel doc
-    for(let x = 0; x < array.length; x++){
-        array[x] = array[x].split(",");
-    }
-    //finds which column has mod_id and deletes all the garbage before it, deletes everything between mod_id and AM, deletes everything after the last loci
-    let correctColumn = 0;
-    while(array[0][correctColumn] != "mod_id"){
-        correctColumn ++;
-    }
-    for(let y = 0; y < array.length; y++){
-        array[y].splice(0,correctColumn);
-    }
-    correctColumn = 0; 
-    while(array[0][correctColumn] != "AM"){
-        correctColumn ++;
-    }
-
-    for(let y = 0; y < array.length; y++){
-        array[y].splice(1,correctColumn - 1);
-    }
-    correctColumn = 0;
-    for(x = 0; x < array[0].length; x++){
-        if(array[0][x].slice(0,3) == "mod" && array[0][x] != "mod_id"){
-            correctColumn = x;
-        }
-    }
-    if(correctColumn > 0){
-        for(let y = 0; y < array.length; y++){
-            array[y].splice(correctColumn,array[0].length - 1);
-        }
-    }
-
-    for(y = 0; y < array.length; y++){
-        for(x = 0; x < array[y].length; x++){
-            for(z = 0; z < array[y][x].length; z++){
-                if(array[y][x].charAt(z) == "\""){
-                    array[y][x] = array[y][x].substr(1);
-                    array[y][x] = array[y][x].substr(0, array[y][x].length - 1);
-                }
-            }
-        }
-    }
-    for(y = 0; y < array.length; y++){
-        for(x = 1; x < array[y].length; x++){
-            array[y][x] = array[y][x].split("^");
-        }
-    }
-    //object maker 
-    let objArray = [];
-    let loci = {};
-    for(let y = 1; y < array.length; y++){
-        tempObj = {}
-        loci  = {};
-        for(x = 1; x < array[y].length; x++){
-            loci[array[0][x]] = [array[y][x]];
-        }
-        tempObj.loci = loci;
-        tempObj.modelIdentification = array[y][0];
-        objArray[y - 1] = tempObj;
-    }
-    for(let y = 0; y < objArray.length; y++){
-        if(objArray[y].modelIdentification === "" || objArray[y].modelIdentification === undefined || objArray[y].modelIdentification === null || objArray[y].modelIdentification === "<empty string>"){
-            objArray.splice(y,1);
-            y--;
-        }
-    }
-    console.log(objArray);
-    return objArray;
-}
+let query = [{loci: {"Amelogenin": ["X","Y"], "CSF1PO": ["10","12"], "D2S1338": ["13","14"], "D3S1358": ["10","12"], "D5S818": ["13","14"], "D7S820": ["10","12"], "D8S1179": ["10"], "D13S317": ["11"], "D16S539": ["15"], "D18S51": ["11.2"], "D19S433": ["9.2"], "D21S11": ["10"], "FGA": ["11","12"], "Penta D": ["7","8"], "Penta E": ["12"], "TH01": ["12"], "TPOX": ["12"], "vWA": ["12"]},
+modelIdentification : "query"
+}]
