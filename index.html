@@ -8,11 +8,14 @@
     <h1>Cell Line Verification</h1>
     <!--Box for uploading the query and reference files-->
     <div id="uploadBox">
-      <h3>Upload Query</h3>
-      <input type="file" id="queryUpload">
-      <br>
-      <h3>Upload Reference</h3>
-      <input type="file" id="referenceUpload">
+      <div class="fileUploadContainer">
+        <h3>Upload Query</h3>
+        <input type="file" id="queryUpload">
+      </div>
+      <div class="fileUploadContainer">
+        <h3>Upload Reference</h3>
+        <input type="file" id="referenceUpload">
+      </div>
     </div>
     <div id="compareSettings">
       <!--Title box for the compare settings box-->
@@ -20,6 +23,10 @@
         <h2>Comparision Settings</h2>
       </div>
       <div id="enterSettings">
+        <div id="amelogeninCheckboxContainer">
+          <input type="checkbox" id="includeAmelogeninInput" value="includeAmelogenin">
+          <p>Include Amelogenin</p>
+        </div>
         <!--Container for algorithm options and header-->
         <div id="algorithmContainer" class="optionContainer">
           <div class="optionHeader" id="algorithmHeaderContainer">
@@ -30,12 +37,11 @@
             <input type="radio" id="tanabeSelect" name="algorithm" value="Tanabe">
             <p>Tanabe</p>
             <br>
-            <input type="radio" id="mastersVQuerySelect" name="algorithm" value="Masters (vs. Reference)">
-            <p>Masters (vs. Reference)</p>
-            <br>
             <input type="radio" id="mastersVRefernceSelect" name="algorithm" value="Masters (vs. Query)">
             <p>Masters (vs. Query)</p>
             <br>
+            <input type="radio" id="mastersVQuerySelect" name="algorithm" value="Masters (vs. Reference)">
+            <p>Masters (vs. Reference)</p>
           </div>
         </div>
         <!--Container for mode options and header-->
@@ -53,7 +59,6 @@
             <br>
             <input type="radio" id="referenceSelect" name="mode" value="Reference Markers">
             <p>Reference Markers</p>
-            <br>
           </div>
         </div>
       </div>
