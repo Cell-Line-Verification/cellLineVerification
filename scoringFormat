@@ -1,0 +1,13 @@
+Scoring Format
+
+Parameters:
+reference, query, mode, amelogenin = true
+
+mode:
+0 == non-empty markers
+1 == query markers
+2 == reference markers
+
+
+Return:
+floating point (e.g., 0.75)
