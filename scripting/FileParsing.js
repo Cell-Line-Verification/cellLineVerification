@@ -146,3 +146,20 @@ function csvHandeling(array){
               array[y].splice(correctColumn,array[0].length - 1);
           }
       }
+	          //object maker 
+    let objArray = [];
+    let loci = {};
+    for(let y = 1; y < array.length; y++){
+        tempObj = {}
+        loci  = {};
+        for(x = 1; x < array[y].length; x++){
+            loci[array[0][x]] = [array[y][x]];
+        }
+        tempObj.loci = loci;
+        tempObj.modelIdentification = array[y][0];
+        objArray[y - 1] = tempObj;
+    }
+    console.log(objArray);
+    return objArray;
+}
+
