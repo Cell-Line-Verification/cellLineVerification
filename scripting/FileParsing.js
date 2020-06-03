@@ -15,40 +15,90 @@
       fileReader.addEventListener("load",event => {
       let stringResults = event.target.result;
 
+    //initiates file parsing
+    fileParse(stringResults, fileType);
+    });
+    fileReader.readAsText(file); //reads content as text to activate load for event listener 
+}
+function fileParse(stringResults, fileType){
+        if(fileType === "csv"){
+            //if its csv split it into an array based upon new lines, each element of array is a row in file
+            let valuesArray = stringResults.split(/\r?\n|\r/);
+            //passes it to handeling for csv files
+            return csvHandeling(valuesArray);
+        }
+        else if(fileType === "json"){
+            //if its a json file then use built in parsing and return parsed object
+            let jsonObj = JSON.parse(stringResults);
+            return jsonObj;
+        }
+        else{
+            //yeild error because wrong file type
+            alert("incorrect file type: please enter a JSON or CVS file and try again.");
+        }
+}
+//method to replace characters in a string based upon index
+String.prototype.replaceAt = function(index, replacement) {
+	if (index >= this.length) {
+		return this.valueOf();
+	}
       //decide what file type it is
       let fileType  = file.name.split(".").pop();
 
-      //initiates file parsing
-      fileParse(stringResults, fileType);
-      });
-      fileReader.readAsText(file); //reads content as text to activate load for event listener
-  }
-  function fileParse(stringResults, fileType){
-          if(fileType === "csv"){
-              //if its cvs split it into an array based upon new lines, each element of array is a row in file
-              let valuesArray = stringResults.split(/\r?\n|\r/);
-              //passes it to handeling for cvs files
-              return csvHandeling(valuesArray);
-          }
-          else if(fileType === "json"){
-              //if its a json file then use built in parsing and return parsed object
-              return(JSON.parse(stringResults));
-          }
-          else{
-              //yeild error because wrong file type
-              alert("incorrect file type: please enter a JSON or CVS file and try again.");
-          }
-  }
-  //method to replace characters in a string based upon index
-  String.prototype.replaceAt = function(index, replacement) {
-  	if (index >= this.length) {
-  		return this.valueOf();
-  	}
+    for(let y = 0; y < array.length; y++){
+        array[y].splice(1,correctColumn - 1);
+    }
+    correctColumn = 0;
+    for(x = 0; x < array[0].length; x++){
+        if(array[0][x].slice(0,3) == "mod" && array[0][x] != "mod_id"){
+            correctColumn = x;
+        }
+    }
+    if(correctColumn > 0){
+        for(let y = 0; y < array.length; y++){
+            array[y].splice(correctColumn,array[0].length - 1);
+        }
+    }
 
-  	return this.substring(0, index) + replacement + this.substring(index + 1);
-  }
+    for(y = 0; y < array.length; y++){
+        for(x = 0; x < array[y].length; x++){
+            for(z = 0; z < array[y][x].length; z++){
+                if(array[y][x].charAt(z) == "\""){
+                    array[y][x] = array[y][x].substr(1);
+                    array[y][x] = array[y][x].substr(0, array[y][x].length - 1);
+                }
+            }
+        }
+    }
+    for(y = 0; y < array.length; y++){
+        for(x = 1; x < array[y].length; x++){
+            array[y][x] = array[y][x].split("^");
+        }
+    }
+    //object maker 
+    let objArray = [];
+    let loci = {};
+    for(let y = 1; y < array.length; y++){
+        tempObj = {}
+        loci  = {};
+        for(x = 1; x < array[y].length; x++){
+            loci[array[0][x]] = [array[y][x]];
+        }
+        tempObj.loci = loci;
+        tempObj.modelIdentification = array[y][0];
+        objArray[y - 1] = tempObj;
+    }
+    for(let y = 0; y < objArray.length; y++){
+        if(objArray[y].modelIdentification === "" || objArray[y].modelIdentification === undefined || objArray[y].modelIdentification === null || objArray[y].modelIdentification === "<empty string>"){
+            objArray.splice(y,1);
+            y--;
+        }
+    }
+    console.log(objArray);
+    return objArray;
+}
 
-  function csvHandeling(array){
+function csvHandeling(array){
       //needs to clean extra commas to keep data together
       //there are commas within cells so it switches them with "|" to avoid splitting the cells
       let isComma = false;
@@ -96,45 +146,3 @@
               array[y].splice(correctColumn,array[0].length - 1);
           }
       }
-
-      for(y = 0; y < array.length; y++){
-          for(x = 0; x < array[y].length; x++){
-              for(z = 0; z < array[y][x].length; z++){
-                  if(array[y][x].charAt(z) == "\""){
-                      array[y][x] = array[y][x].substr(1);
-                      array[y][x] = array[y][x].substr(0, array[y][x].length - 1);
-                  }
-              }
-          }
-      }
-      for(y = 0; y < array.length; y++){
-          for(x = 1; x < array[y].length; x++){
-              array[y][x] = array[y][x].split("^");
-          }
-      }
-      //object maker
-      let objArray = [];
-      let loci = {};
-      for(let y = 1; y < array.length; y++){
-          tempObj = {}
-          loci  = {};
-          for(x = 1; x < array[y].length; x++){
-              loci[array[0][x]] = [array[y][x]];
-          }
-          tempObj.loci = loci;
-          tempObj.modelIdentification = array[y][0];
-          objArray[y - 1] = tempObj;
-      }
-      for(let y = 0; y < objArray.length; y++){
-          if(objArray[y].modelIdentification === "" || objArray[y].modelIdentification === undefined || objArray[y].modelIdentification === null || objArray[y].modelIdentification === "<empty string>"){
-              objArray.splice(y,1);
-          }
-      }
-      for(let y = 0; y < objArray.length; y++){
-          if(objArray[y].modelIdentification === "" || objArray[y].modelIdentification === undefined || objArray[y].modelIdentification === null || objArray[y].modelIdentification === "<empty string>"){
-              objArray.splice(y,1);
-          }
-      }
-      console.log(objArray);
-      return objArray;
-  }
