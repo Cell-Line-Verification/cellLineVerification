@@ -6,7 +6,7 @@ function tanabe(reference, query, mode, amelogenin = true) {
   let referenceAmelogeninName = " ";
   for (let i = 0; i < Object.keys(reference.loci).length; i++) {
     if (Object.keys(reference.loci)[i] in ["Am", "AM", "am", "Amelogenin", "amelogenin"]) {
-      referenceAmelogeninName = Object.keys(reference.loci)[1];
+      referenceAmelogeninName = Object.keys(reference.loci)[i];
     }
   }
   
@@ -14,7 +14,7 @@ function tanabe(reference, query, mode, amelogenin = true) {
   let queryAmelogeninName = " ";
   for (let i = 0; i < Object.keys(query.loci).length; i++) {
     if (Object.keys(query.loci)[i] in ["Am", "AM", "am", "Amelogenin", "amelogenin"]) {
-      queryAmelogeninName = Object.keys(query.loci)[1];
+      queryAmelogeninName = Object.keys(query.loci)[i];
     }
   }
 
