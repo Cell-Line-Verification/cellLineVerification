@@ -88,25 +88,25 @@ function tanabe(reference, query, mode, amelogenin = true) {
 
         //claculates the number of reference alleles
         numReferenceAlleles += reference.loci[keyName].length;
-      } else if (keyName == queryAmelogeninName && referenceAmelogeninName != " " && amelogenin) {
+      } else if (keyName == queryAmelogeninName && amelogenin) {
         //in the case that we consider amelogenin
-        if (query.loci[keyName].length > 0 && reference.loci[referenceAmelogeninName].length > 0) {
+        if (referenceAmelogeninName != " " && query.loci[keyName].length > 0 && reference.loci[referenceAmelogeninName].length > 0) {
           
-        if (keyName in reference.loci) {
-          if !(amelogenin == false && keyName == amelogeninName) {
+          if (keyName in reference.loci) {
             for (let j = 0; j < query.loci[keyName].length; j++) {
               if (reference.loci[keyName].includes(query.loci[keyName][j])) {
                 numSharedAlleles++;
               }
             }
           }
-        }
           
-        //calculates the number of query alleles
-        numQueryAlleles += query.loci[keyName].length;
+          //calculates the number of query alleles
+          numQueryAlleles += query.loci[keyName].length;
 
-        //claculates the number of reference alleles
-        numReferenceAlleles += reference.loci[referenceAmelogeninName].length;
+          //calculates the number of reference alleles
+          if (referenceAmelogeninName != " ") {
+            numReferenceAlleles += reference.loci[referenceAmelogeninName].length;
+          }
         }
       }
     }
@@ -117,35 +117,45 @@ function tanabe(reference, query, mode, amelogenin = true) {
     for (let i = 0; i < Object.keys(reference.loci).length; i++) {
       let keyName = Object.keys(reference.loci)[i];
       
-      //strides through all the shared locations
-      if (reference.loci[keyName].length > 0) {
-
+      //strides through all the reference specific locations but not amelogenin
+      if (reference.loci[keyName].length > 0 && keyName != referenceAmelogeninName) {
         //calculates the num of shared alleles
         if (keyName in query.loci) {
-          if !(amelogenin == false && keyName == amelogeninName) {
+          for (let j = 0; j < reference.loci[keyName].length; j++) {
+            if (query.loci[keyName].includes(reference.loci[keyName][j])) {
+              numSharedAlleles++;
+            }
+          }
+        }
+
+        //calculates the number of reference alleles
+        numReferenceAlleles += reference.loci[keyName].length;
+
+        //claculates the number of query alleles
+        numQueryAlleles += query.loci[keyName].length;
+      } else if (keyName == queryAmelogeninName && amelogenin) {
+        //in the case that we consider amelogenin
+        if (queryAmelogeninName != " " && reference.loci[keyName].length > 0 && query.loci[queryAmelogeninName].length > 0) {
+          
+          if (keyName in query.loci) {
             for (let j = 0; j < reference.loci[keyName].length; j++) {
               if (query.loci[keyName].includes(reference.loci[keyName][j])) {
                 numSharedAlleles++;
               }
             }
           }
-        }
-
-        //calculates the number of reference alleles
-        if !(amelogenin == false && keyName == amelogeninName) {
+          
+          //calculates the number of reference alleles
           numReferenceAlleles += reference.loci[keyName].length;
-        }
 
-        //claculates the number of query alleles
-        if (keyName in query.loci) {
-          if !(amelogenin == false && keyName == amelogeninName) {
-            numQueryAlleles += query.loci[keyName].length;
+          //calculates the number of query alleles
+          if (queryAmelogeninName != " ") {
+            numQueryAlleles += query.loci[queryAmelogeninName].length;
           }
         }
       }
     }
   }
-  
   //returns the the tanabe concordance amount in percent
   return (100 * (2 * numSharedAlleles) / (numReferenceAlleles + numQueryAlleles));
   
