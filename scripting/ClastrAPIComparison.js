@@ -4,18 +4,19 @@
 //this function takes in amelogenin (true if amelogenin is to be used when comparing the query)
 //returns an array of DOM object that contains the corresponding desired tables.
 function getClastrResults(queryList, algorithm, mode, amelogenin = true) {
-
+	//Getting URL.
     let baseURL = "https://web.expasy.org/cellosaurus-str-search/api/query";
-
+	//Defining various variables.
     let query, markerNames, keyName, algorithmType, scoringMode, includeAmelogenin, outputFormat, fullURL;
-
+	//Declaring an array which will contain the table and its associated data.
   	let resultsArray = [];
-  
+//Creating the URL.
+  //For loop that strides through the query list. Variable "query" is assigned the index value.
     for (let i = 0; i < queryList.length; i++) {
         query = queryList[i];
-
+	//Markernames is initially declared as empty.
         markerNames = "";
-      
+	    
         for (let j = 0; j < Object.keys(query.loci).length; j++) {
            keyName = Object.keys(query.loci)[j];
 
@@ -36,7 +37,7 @@ function getClastrResults(queryList, algorithm, mode, amelogenin = true) {
                markerNames += `${query.loci[keyName][k]}`;
            }
         }
-
+	//The URL will contain the algorithm, scoring mode, amelogenin and such.
         algorithmType = `&algorithm=${algorithm}`;
 
         scoringMode = `&scoringMode=${mode + 1}`;
@@ -48,13 +49,13 @@ function getClastrResults(queryList, algorithm, mode, amelogenin = true) {
         fullURL = baseURL + markerNames + algorithmType + scoringMode + includeAmelogenin + outputFormat;
 
 
-
+	//Getting the API.
         let request = new XMLHttpRequest();
       
         request.open('GET', fullURL);
 
         request.send();      
-    
+    	//Adding the data to the resultsArray variable. The data is a JSON object.
         request.onreadystatechange = function() {
             if (this.status >= 200 && this.status <= 400 && this.readyState == 4) {
               	let data = JSON.parse(this.responseText);
