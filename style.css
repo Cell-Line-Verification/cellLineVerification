@@ -24,24 +24,24 @@ body {
   display: inline;
 }
 
-#compareSettings {
+.dataBox {
   border-radius: 15px;
   background-color: #ebeced;
   margin-top: 30px;
 }
 
-#headerBox {
+.headerBox {
   background-color: #c6c9cc;
   padding: 10px;
   padding-left: 20px;
   border-radius: 15px 15px 0px 0px;
 }
 
-#amelogeninCheckboxContainer {
+.secondaryInfoBox {
   padding-left: 20px;
 }
 
-#amelogeninCheckboxContainer p {
+.secondaryInfoBox p, .secondaryInfoBox h3 {
   display: inline-block;
 }
 
@@ -77,4 +77,24 @@ body {
   border-radius: 5px;
   width: 25%;
   height: 30px;
+}
+
+#results {
+  display: none;
+}
+
+table {
+  width: 100%;
+  border-radius: 15px;
+  border-collapse: collapse;
+}
+
+td, th {
+  text-align: center;
+  vertical-align: middle;
+  padding: 10px;
+}
+
+#keyRow {
+  background-color: #d9dcde;
 }
