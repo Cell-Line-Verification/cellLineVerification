@@ -3,73 +3,67 @@
 //this function takes in mode (0 for non-empty marker, 1 for query marker. and 2 for reference markers)
 //this function takes in amelogenin (true if amelogenin is to be used when comparing the query)
 //returns an array of DOM object that contains the corresponding desired tables.
-function getClastrResults(queryList, algorithm, mode, amelogenin = true) {
+function getClastrResults(query, algorithm, mode, amelogenin = true) {
 	//Getting URL.
     let baseURL = "https://web.expasy.org/cellosaurus-str-search/api/query";
 	//Defining various variables.
     let query, markerNames, keyName, algorithmType, scoringMode, includeAmelogenin, outputFormat, fullURL;
 	//Declaring an array which will contain the table and its associated data.
-  	let resultsArray = [];
-//Creating the URL.
-  //For loop that strides through the query list. Variable "query" is assigned the index value.
-    for (let i = 0; i < queryList.length; i++) {
-        query = queryList[i];
+	//Creating the URL.
 	//Markernames is initially declared as empty.
-        markerNames = "";
-	    
-        for (let j = 0; j < Object.keys(query.loci).length; j++) {
-           keyName = Object.keys(query.loci)[j];
+	markerNames = "";
 
-           if (j == 0) {
-               markerNames += "?";
-           } else {
-               markerNames += "&";
-           }
+	for (let j = 0; j < Object.keys(query.loci).length; j++) {
+	   keyName = Object.keys(query.loci)[j];
 
-           markerNames += `${keyName}=`;
+	   if (j == 0) {
+	       markerNames += "?";
+	   } else {
+	       markerNames += "&";
+	   }
 
-           let k;
-           for (let k = 0; k < query.loci[keyName].length; k++) {
-               if (k != 0) {
-                   markerNames += ",";
-               }
+	   markerNames += `${keyName}=`;
 
-               markerNames += `${query.loci[keyName][k]}`;
-           }
-        }
+	   let k;
+	   for (let k = 0; k < query.loci[keyName].length; k++) {
+	       if (k != 0) {
+		   markerNames += ",";
+	       }
+
+	       markerNames += `${query.loci[keyName][k]}`;
+	   }
+	}
 	//The URL will contain the algorithm, scoring mode, amelogenin and such.
-        algorithmType = `&algorithm=${algorithm}`;
+	algorithmType = `&algorithm=${algorithm}`;
 
-        scoringMode = `&scoringMode=${mode + 1}`;
+	scoringMode = `&scoringMode=${mode + 1}`;
 
-        includeAmelogenin =  `&includeAmelogenin=${amelogenin}`;
+	includeAmelogenin =  `&includeAmelogenin=${amelogenin}`;
 
-        outputFormat = "&outputFormat=json";
+	outputFormat = "&outputFormat=json";
 
-        fullURL = baseURL + markerNames + algorithmType + scoringMode + includeAmelogenin + outputFormat;
+	fullURL = baseURL + markerNames + algorithmType + scoringMode + includeAmelogenin + outputFormat;
 
 
 	//Getting the API.
-        let request = new XMLHttpRequest();
-      
-        request.open('GET', fullURL);
+	let request = new XMLHttpRequest();
 
-        request.send();      
-    	//Adding the data to the resultsArray variable. The data is a JSON object.
-        request.onreadystatechange = function() {
-            if (this.status >= 200 && this.status <= 400 && this.readyState == 4) {
-              	let data = JSON.parse(this.responseText);
-              	
-              	resultsArray.push(makeTable(data)); 
-              
-            } else {
-              	console.log(`this.readyState: ${this.readyState}`);
-            }
-        };
+	request.open('GET', fullURL);
+
+	request.send();      
+	//Adding the data to the resultsArray variable. The data is a JSON object.
+	request.onreadystatechange = function() {
+	    if (this.status >= 200 && this.status <= 400 && this.readyState == 4) {
+		let data = JSON.parse(this.responseText);
+
+		return (makeTable(data)); 
+
+	    } else {
+		console.log(`this.readyState: ${this.readyState}`);
+	    }
+	};
 
     }
-  
-  	return resultsArray;
 }
 
 function makeTable(JSONdata) {
