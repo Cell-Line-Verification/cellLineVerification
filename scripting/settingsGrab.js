@@ -1,6 +1,8 @@
 window.onload = () => {
     let settings = {};
-    document.getElementById("compareButton").addEventListener("click",() => {settings = settingsGrab()});
+    document.getElementById("compareButton").addEventListener("click",() => {
+        settings = settingsGrab();    
+    });
 }
 function settingsGrab(){
     let settings = {}
