@@ -1,16 +1,3 @@
-// file inputs
-window.onload = () => {
-    //parse file upon upload
-    document.getElementById("queryUpload").addEventListener("change", event => { //query
-        fileGrabQuery(event.target.files[0]); //first file selected by user
-    });
-    document.getElementById("referenceUpload").addEventListener("change", event => { //reference
-        fileGrabRef(event.target.files[0]); //first file selected by user
-    });
-};
-
-
-
 // FINAL RESULT OF EACH PARSED FILE
 let queries, references;
 
