@@ -3,6 +3,8 @@
   <head>
     <title>Cell Line Verification</title>
     <link rel="stylesheet" href="style.css">
+    <script src="table.js"></script>
+    <script src="scripting/FileParsing.js"></script>
   </head>
   <body>
     <h1>Cell Line Verification</h1>
@@ -17,13 +19,13 @@
         <input type="file" id="referenceUpload">
       </div>
     </div>
-    <div id="compareSettings">
+    <div id="compareSettings" class="dataBox">
       <!--Title box for the compare settings box-->
-      <div id="headerBox">
+      <div class="headerBox">
         <h2>Comparision Settings</h2>
       </div>
       <div id="enterSettings">
-        <div id="amelogeninCheckboxContainer">
+        <div id="amelogeninCheckboxContainer" class="secondaryInfoBox">
           <input type="checkbox" id="includeAmelogeninInput" value="includeAmelogenin">
           <p>Include Amelogenin</p>
         </div>
@@ -66,8 +68,27 @@
       <div id="compareButtonContainer">
         <button>Compare</button>
       </div>
-      <div id="results">
+    </div>
+    <div id="results" class="dataBox">
+      <div class="headerBox">
+        <h2>Results</h2>
       </div>
+      <div id="concordanceContainer" class="secondaryInfoBox">
+        <h3>Concordance:</h3>
+        <p id="concordance"></p>
+      </div>
+      <table id="resultsTable">
+        <tr id="keyRow">
+          <th>Allele</th>
+          <th>Query</th>
+          <th>Reference</th>
+        </tr>
+        <tr>
+          <th>Model ID:</th>
+          <td id="queryModel"></td>
+          <td id="referenceModel"></td>
+        </tr>
+      </table>
     </div>
   </body>
 </html>

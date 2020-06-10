@@ -1,101 +1,60 @@
-//Parses through file uploaded and gets back STR Fingerprint
-  //file upload for query data
-
-
-  window.onload = () => {
-      //gets input space, adds event listener for on change, should change to on submit once html is finished
-      document.getElementById("referenceUpload").addEventListener("change", event => {
-          fileGrab(event.target.files[0]); //first file selected by user
-        });
-
-    };
-  function fileGrab(file){
-      //grabs file info as stringResults
-      let fileReader = new FileReader(); //reads content of file
-      fileReader.addEventListener("load",event => {
-      let stringResults = event.target.result;
-
-    //initiates file parsing
-    fileParse(stringResults, fileType);
+// file inputs
+window.onload = () => {
+    //parse file upon upload
+    document.getElementById("queryUpload").addEventListener("change", event => { //query
+        fileGrabQuery(event.target.files[0]); //first file selected by user
     });
-    fileReader.readAsText(file); //reads content as text to activate load for event listener 
+    document.getElementById("referenceUpload").addEventListener("change", event => { //reference
+        fileGrabRef(event.target.files[0]); //first file selected by user
+    });
+};
+
+
+
+// FINAL RESULT OF EACH PARSED FILE
+let queries, references;
+
+// FOR QUERY: gets file, leads into fileParse
+function fileGrabQuery(file){
+    //grabs file info as stringResults
+    let fileReader = new FileReader(); //reads content of file
+    fileReader.addEventListener("load", event => {
+        let stringResults = event.target.result;
+        //decide what file type it is
+        let fileType = file.name.split(".").pop();
+
+        //initiates file parsing
+        queries = fileParse(stringResults, fileType);
+    });
+    fileReader.readAsText(file); //reads content as text to activate load for event listener
 }
+
+// FOR REFERENCE: gets file, leads into fileParse
+function fileGrabRef(file){
+    //grabs file info as stringResults
+    let fileReader = new FileReader(); //reads content of file
+    fileReader.addEventListener("load", event => {
+        let stringResults = event.target.result;
+        //decide what file type it is
+        let fileType = file.name.split(".").pop();
+
+        //initiates file parsing
+        references = fileParse(stringResults, fileType);
+    });
+    fileReader.readAsText(file); //reads content as text to activate load for event listener
+}
+
+//parses file, leads into csvHandeling 
 function fileParse(stringResults, fileType){
-        if(fileType === "csv"){
-            //if its csv split it into an array based upon new lines, each element of array is a row in file
-            let valuesArray = stringResults.split(/\r?\n|\r/);
-            //passes it to handeling for csv files
-            return csvHandeling(valuesArray);
-        }
-        else if(fileType === "json"){
-            //if its a json file then use built in parsing and return parsed object
-            let jsonObj = JSON.parse(stringResults);
-            return jsonObj;
-        }
-        else{
-            //yeild error because wrong file type
-            alert("incorrect file type: please enter a JSON or CVS file and try again.");
-        }
-}
-//method to replace characters in a string based upon index
-String.prototype.replaceAt = function(index, replacement) {
-	if (index >= this.length) {
-		return this.valueOf();
-	}
-      //decide what file type it is
-      let fileType  = file.name.split(".").pop();
-
-    for(let y = 0; y < array.length; y++){
-        array[y].splice(1,correctColumn - 1);
+    if (fileType === "csv") {
+        //if its csv split it into an array based upon new lines, each element of array is a row in file
+        let valuesArray = stringResults.split(/\r?\n|\r/);
+        //passes it to handeling for csv files
+        return csvHandeling(valuesArray);
+    } else {
+        //yield error because wrong file type
+        alert("Incorrect File Type: please enter a CVS file and try again.");
     }
-    correctColumn = 0;
-    for(x = 0; x < array[0].length; x++){
-        if(array[0][x].slice(0,3) == "mod" && array[0][x] != "mod_id"){
-            correctColumn = x;
-        }
-    }
-    if(correctColumn > 0){
-        for(let y = 0; y < array.length; y++){
-            array[y].splice(correctColumn,array[0].length - 1);
-        }
-    }
-
-    for(y = 0; y < array.length; y++){
-        for(x = 0; x < array[y].length; x++){
-            for(z = 0; z < array[y][x].length; z++){
-                if(array[y][x].charAt(z) == "\""){
-                    array[y][x] = array[y][x].substr(1);
-                    array[y][x] = array[y][x].substr(0, array[y][x].length - 1);
-                }
-            }
-        }
-    }
-    for(y = 0; y < array.length; y++){
-        for(x = 1; x < array[y].length; x++){
-            array[y][x] = array[y][x].split("^");
-        }
-    }
-    //object maker 
-    let objArray = [];
-    let loci = {};
-    for(let y = 1; y < array.length; y++){
-        tempObj = {}
-        loci  = {};
-        for(x = 1; x < array[y].length; x++){
-            loci[array[0][x]] = [array[y][x]];
-        }
-        tempObj.loci = loci;
-        tempObj.modelIdentification = array[y][0];
-        objArray[y - 1] = tempObj;
-    }
-    for(let y = 0; y < objArray.length; y++){
-        if(objArray[y].modelIdentification === "" || objArray[y].modelIdentification === undefined || objArray[y].modelIdentification === null || objArray[y].modelIdentification === "<empty string>"){
-            objArray.splice(y,1);
-            y--;
-        }
-    }
-    console.log(objArray);
-    return objArray;
 }
 
 function csvHandeling(array){
@@ -113,13 +72,15 @@ function csvHandeling(array){
               if(isComma && array[y].charAt(x) == ","){
                   array[y] = array[y].replaceAt(x,"^");
               }
-          }
+          } 
       }
+
       //breaks array into multidimentional array - essentially a grid same as the excel doc
       for(let x = 0; x < array.length; x++){
           array[x] = array[x].split(",");
       }
-      //finds which column has mod_id and deletes all the garbage before it, deletes everything between mod_id and AM, deletes everything after the last loci
+
+      //finds which column has mod_id and deletes everything before it, deletes everything between mod_id and AM, deletes everything after the last loci
       let correctColumn = 0;
       while(array[0][correctColumn] != "mod_id"){
           correctColumn ++;
@@ -128,8 +89,8 @@ function csvHandeling(array){
           array[y].splice(0,correctColumn);
       }
       correctColumn = 0;
-      while(array[0][correctColumn] != "AM"){
-          correctColumn ++;
+      while(!["AM", "Amelogenin", "amelogenin", "am", "Am", "amel", "Amel"].includes(array[0][correctColumn])){
+          correctColumn++;
       }
 
       for(let y = 0; y < array.length; y++){
@@ -146,19 +107,49 @@ function csvHandeling(array){
               array[y].splice(correctColumn,array[0].length - 1);
           }
       }
-          //object maker 
+      for(y = 0; y < array.length; y++){
+        for(x = 0; x < array[y].length; x++){
+            for(z = 0; z < array[y][x].length; z++){
+                if(array[y][x].charAt(z) == "\""){
+                    array[y][x] = array[y][x].substr(1);
+                    array[y][x] = array[y][x].substr(0, array[y][x].length - 1);
+                }
+            }
+        }
+    }
+
+    for(y = 0; y < array.length; y++){
+        for(x = 1; x < array[y].length; x++){
+            array[y][x] = array[y][x].split("^");
+        }
+    }
+    
+    //object maker 
     let objArray = [];
     let loci = {};
     for(let y = 1; y < array.length; y++){
         tempObj = {}
         loci  = {};
         for(x = 1; x < array[y].length; x++){
-            loci[array[0][x]] = [array[y][x]];
+            if (array[y][x][0] !== "" && array[y][x][0] !== "{null}" && array[y][x][0] !== "0") {
+                loci[array[0][x]] = [array[y][x]];
+            }
         }
         tempObj.loci = loci;
         tempObj.modelIdentification = array[y][0];
         objArray[y - 1] = tempObj;
     }
-    console.log(objArray);
+    for(let y = 0; y < objArray.length; y++){
+        if(objArray[y].modelIdentification === "" || objArray[y].modelIdentification === undefined || objArray[y].modelIdentification === null || objArray[y].modelIdentification === "<empty string>"){
+            objArray.splice(y,1);
+            y--;
+        }
+    }
+
     return objArray;
+}
+
+//method to replace characters in a string based upon index
+String.prototype.replaceAt = function(index, replacement) {
+    return this.substring(0, index) + replacement + this.substring(index + replacement.length, this.length);
 }

@@ -1,7 +1,8 @@
 // This function takes in the parameters for a tanabe-style reference and returns the concordance amount.
 // The mode is an int with 0 being non-empty markers, 1 being query markers, and 2 being reference markers.
-function tanabe(reference, query, mode, amelogenin = true) {
-  
+//The algorithm is an int with 0 being tanabe, 1 being masters vs query, and 2 being masters vs. reference.
+function calculateConcordance(reference, query, mode = 0, algorithm = 0, amelogenin = true) {
+
   //figures out which name for amelogenin is being used in the refernce
   let referenceAmelogeninName = " ";
   for (let i = 0; i < Object.keys(reference.loci).length; i++) {
@@ -17,7 +18,6 @@ function tanabe(reference, query, mode, amelogenin = true) {
       queryAmelogeninName = Object.keys(query.loci)[i];
     }
   }
-
   
   let numSharedAlleles = 0;
   let numReferenceAlleles = 0;
@@ -25,12 +25,12 @@ function tanabe(reference, query, mode, amelogenin = true) {
   
   if (mode == 0) {
     //non-empty marker case
-    
+
     for (let i = 0; i < Object.keys(query.loci).length; i++) {
       let keyName = Object.keys(query.loci)[i];
       
       //strides through all the shared locations but not amelogenin
-      if (keyName in query.loci && keyName in reference.loci && keyName != queryAmelogeninName) {
+      if (keyName in reference.loci && keyName != queryAmelogeninName) {
         if (query.loci[keyName].length > 0 && reference.loci[keyName].length > 0) {
           
           //calculates the num of shared alleles
@@ -52,7 +52,8 @@ function tanabe(reference, query, mode, amelogenin = true) {
           
           //calculates the num of shared alleles
           for (let j = 0; j < query.loci[keyName].length; j++) {
-            if (reference.loci[referenceAmelogeninName].includes(query.loci[keyName][j])) {
+            if (reference.loci[referenceAmelogeninName].includes(query.loci[keyName][j].toLowerCase()) ||
+                  reference.loci[referenceAmelogeninName].includes(query.loci[keyName][j].toUpperCase())) {
               numSharedAlleles++;
             }
           }
@@ -92,11 +93,10 @@ function tanabe(reference, query, mode, amelogenin = true) {
         //in the case that we consider amelogenin
         if (referenceAmelogeninName != " " && query.loci[keyName].length > 0 && reference.loci[referenceAmelogeninName].length > 0) {
           
-          if (keyName in reference.loci) {
-            for (let j = 0; j < query.loci[keyName].length; j++) {
-              if (reference.loci[keyName].includes(query.loci[keyName][j])) {
-                numSharedAlleles++;
-              }
+          for (let j = 0; j < query.loci[keyName].length; j++) {
+            if (reference.loci[referenceAmelogeninName].includes(query.loci[keyName][j].toLowerCase()) || 
+                  reference.loci[referenceAmelogeninName].includes(query.loci[keyName][j].toUpperCase())) {
+              numSharedAlleles++;
             }
           }
           
@@ -133,15 +133,14 @@ function tanabe(reference, query, mode, amelogenin = true) {
 
         //claculates the number of query alleles
         numQueryAlleles += query.loci[keyName].length;
-      } else if (keyName == queryAmelogeninName && amelogenin) {
+      } else if (keyName == referenceAmelogeninName && amelogenin) {
         //in the case that we consider amelogenin
         if (queryAmelogeninName != " " && reference.loci[keyName].length > 0 && query.loci[queryAmelogeninName].length > 0) {
           
-          if (keyName in query.loci) {
-            for (let j = 0; j < reference.loci[keyName].length; j++) {
-              if (query.loci[keyName].includes(reference.loci[keyName][j])) {
-                numSharedAlleles++;
-              }
+          for (let j = 0; j < reference.loci[keyName].length; j++) {
+            if (query.loci[queryAmelogeninName].includes(reference.loci[keyName][j].toLowerCase()) ||
+                  query.loci[queryAmelogeninName].includes(reference.loci[keyName][j].toUpperCase())) {
+              numSharedAlleles++;
             }
           }
           
@@ -156,7 +155,15 @@ function tanabe(reference, query, mode, amelogenin = true) {
       }
     }
   }
-  //returns the the tanabe concordance amount in percent
-  return (100 * (2 * numSharedAlleles) / (numReferenceAlleles + numQueryAlleles));
+
+  console.log(numSharedAlleles, numReferenceAlleles, numQueryAlleles);
+  //returns the the concordance amount in percent
+  if (algorithm == 0) {
+    return (100 * (2 * numSharedAlleles) / (numReferenceAlleles + numQueryAlleles));
+  } else if (algorithm == 1) {
+    return (100 * (numSharedAlleles) / (numQueryAlleles));
+  } else {
+    return (100 * (numSharedAlleles) / (numReferenceAlleles));
+  }
   
 }
