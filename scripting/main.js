@@ -1,8 +1,16 @@
 
 window.onload = () => {
+    //parse file upon upload
+    document.getElementById("queryUpload").addEventListener("change", event => { //query
+        fileGrabQuery(event.target.files[0]); //first file selected by user
+    });
+    document.getElementById("referenceUpload").addEventListener("change", event => { //reference
+        fileGrabRef(event.target.files[0]); //first file selected by user
+    });
+
+    //compare button
     document.getElementsByTagName("button")[0].addEventListener('click', compare);
 };
-
 
 
 
@@ -18,7 +26,7 @@ function compare() {
     for (let q in queries) {
         referenceEquivIndex = referenceIDs.indexOf(queries[q].modelIdentification);
         if (referenceEquivIndex != -1) {
-            tableDiv.appendChild(createResultsTable(references[referenceEquivIndex], queries[q], calculateConcordance(references[referenceEquivIndex], queries[q], mode, algorithm, amelogenin)));
+            tableDiv.appendChild(createResultsTable(references[referenceEquivIndex], queries[q], calculateConcordance(references[referenceEquivIndex], queries[q], settings.mode, settings.algorithm, settings.amelogenin)));
         } else {
             console.log("Query", queries[q].modelIdentification, "lacks a reference equivalent.");
         }
@@ -38,8 +46,60 @@ function createResultsTable(reference, query, concordancePercentage) {
             alleles.push(key);
         }
     }
-  
-    let row;
+
+    alleles.unshift("");
+
+    let tempTD, tempData;
+    for (let i = 0; i < 3; i++) {
+        table.appendChild(document.createElement("tr"));
+        for (let allele of alleles) {
+            if (i == 0) {
+                tempTD = table.lastChild.appendChild(document.createElement("th"));
+                tempTD.appendChild(document.createTextNode(allele));
+            } else if (i == 1) {
+                if (allele == "") {
+                    tempTD = table.lastChild.appendChild(document.createElement("th"));
+                    tempTD.appendChild(document.createTextNode("Query\n" + query.modelIdentification));
+                } else {
+                    tempTD = table.lastChild.appendChild(document.createElement("td"));
+                    if (Object.keys(query.loci).includes(allele)) {
+                        tempData = '';
+                        query.loci[allele].sort(function (a, b) {
+                            return Number(a) - Number(b);
+                        });
+                        for (let num of query.loci[allele]) {
+                            tempData += num + ',';
+                        }
+                        tempData = tempData.slice(0, tempData.length - 1);
+                    }
+                    tempTD.appendChild(document.createTextNode(tempData));
+                }
+            } else {
+                if (allele == "") {
+                    tempTD = table.lastChild.appendChild(document.createElement("th"));
+                    tempTD.appendChild(document.createTextNode("Reference\n" + reference.modelIdentification));
+                } else {
+                    tempTD = table.lastChild.appendChild(document.createElement("td"));
+                    if (Object.keys(reference.loci).includes(allele)) {
+                        tempData = '';
+                        reference.loci[allele].sort(function (a, b) {
+                            return Number(a) - Number(b);
+                        });
+                        for (let num of reference.loci[allele]) {
+                            tempData += num + ',';
+                        }
+                        tempData = tempData.slice(0, tempData.length - 1);
+                    }
+                    tempTD.appendChild(document.createTextNode(tempData));
+                }
+            }
+        }
+    }
+
+
+
+}
+/*
     let data;
     let text;
     let alleleHeader;
@@ -82,4 +142,4 @@ function createResultsTable(reference, query, concordancePercentage) {
       table.appendChild(row);
     }
   }
-  
+  */
