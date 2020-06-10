@@ -18,7 +18,7 @@ function compare() {
     for (let q in queries) {
         referenceEquivIndex = referenceIDs.indexOf(queries[q].modelIdentification);
         if (referenceEquivIndex != -1) {
-            tableDiv.appendChild(createResultsTable(references[referenceEquivIndex], queries[q], concordance(references[referenceEquivIndex], queries[q])));
+            tableDiv.appendChild(createResultsTable(references[referenceEquivIndex], queries[q], calculateConcordance(references[referenceEquivIndex], queries[q], mode, algorithm, amelogenin)));
         } else {
             console.log("Query", queries[q].modelIdentification, "lacks a reference equivalent.");
         }
