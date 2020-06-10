@@ -3,8 +3,8 @@
   <head>
     <title>Cell Line Verification</title>
     <link rel="stylesheet" href="style.css">
-    <script src="table.js"></script>
     <script src="scripting/FileParsing.js"></script>
+    <script src="main.js"></script>
   </head>
   <body>
     <h1>Cell Line Verification</h1>
@@ -73,22 +73,7 @@
       <div class="headerBox">
         <h2>Results</h2>
       </div>
-      <div id="concordanceContainer" class="secondaryInfoBox">
-        <h3>Concordance:</h3>
-        <p id="concordance"></p>
-      </div>
-      <table id="resultsTable">
-        <tr id="keyRow">
-          <th>Allele</th>
-          <th>Query</th>
-          <th>Reference</th>
-        </tr>
-        <tr>
-          <th>Model ID:</th>
-          <td id="queryModel"></td>
-          <td id="referenceModel"></td>
-        </tr>
-      </table>
+      <div id="concordanceResults"></div>
     </div>
   </body>
 </html>
