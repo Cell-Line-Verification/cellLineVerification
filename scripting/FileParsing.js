@@ -18,7 +18,8 @@
       let fileType  = file.name.split(".").pop();
 
     //initiates file parsing
-    fileParse(stringResults, fileType);
+    results =  fileParse(stringResults, fileType);
+    window.results = results;
     });
     fileReader.readAsText(file); //reads content as text to activate load for event listener 
 }
@@ -27,7 +28,6 @@
 function fileParse(stringResults, fileType){
         if(fileType === "csv"){
             //if its csv split it into an array based upon new lines, each element of array is a row in file
-            console.log(stringResults);
             let valuesArray = stringResults.split(/\r?\n|\r/);
             console.log(valuesArray);
             //passes it to handeling for csv files
@@ -42,17 +42,13 @@ function fileParse(stringResults, fileType){
             //yeild error because wrong file type
             alert("incorrect file type: please enter a JSON or CVS file and try again.");
         }
-    console.log(objArray);
-    return objArray;
 }
 
 function csvHandeling(array){
       //needs to clean extra commas to keep data together
       //there are commas within cells so it switches them with "|" to avoid splitting the cells
-      console.log(array);
       let isComma = false;
       for(y = 0; y < array.length; y++){
-          console.log(array[y]);
           for(x = 0; x < array[y].length; x++){
               if(array[y].charAt(x) == "\""  && !isComma){
                   isComma = true;
