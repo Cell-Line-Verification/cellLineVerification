@@ -119,6 +119,11 @@ function csvHandeling(array){
         loci  = {};
         for(x = 1; x < array[y].length; x++){
             if (array[y][x][0] !== "" && array[y][x][0] !== "{null}" && array[y][x][0] !== "0") {
+                for (let i = 0; i < array[y][x].length; i++) {
+                    if (array[y][x][i] === "") {
+                        array[y][x].splice(i);
+                    }
+                }
                 loci[array[0][x]] = [array[y][x]];
             }
         }
