@@ -25,6 +25,10 @@ function compare() {
     let referenceEquivIndex;
     let referenceIDs = [];
     document.getElementById("results").style.display = "block";
+    for (let element of Array.from(tableDiv.children)) {
+        element.remove();
+    }
+    
     for (let i in references) {
         referenceIDs.push(references[i].modelIdentification);
     }
