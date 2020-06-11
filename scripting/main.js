@@ -1,3 +1,6 @@
+// Main Javascript
+
+let settings = {};
 
 window.onload = () => {
     //parse file upon upload
@@ -9,17 +12,19 @@ window.onload = () => {
     });
 
     //compare button
-    document.getElementsByTagName("button")[0].addEventListener('click', compare);
+    document.getElementById("compareButton").addEventListener("click",() => {
+        settings = settingsGrab();
+        compare();
+    });
 };
-
 
 
 // compare ref with query
 function compare() {
-    console.log('cool')
     let tableDiv = document.getElementById("concordanceResults");
     let referenceEquivIndex;
     let referenceIDs = [];
+    document.getElementById("results").style.display = "block";
     for (let i in references) {
         referenceIDs.push(references[i].modelIdentification);
     }
@@ -32,7 +37,6 @@ function compare() {
         }
     }
 }
-
 
 
 // generate single table for one comparison
@@ -62,8 +66,8 @@ function createResultsTable(reference, query, concordancePercentage) {
                     tempTD.appendChild(document.createTextNode("Query\n" + query.modelIdentification));
                 } else {
                     tempTD = table.lastChild.appendChild(document.createElement("td"));
+                    tempData = '';
                     if (Object.keys(query.loci).includes(allele)) {
-                        tempData = '';
                         query.loci[allele].sort(function (a, b) {
                             return Number(a) - Number(b);
                         });
@@ -80,8 +84,8 @@ function createResultsTable(reference, query, concordancePercentage) {
                     tempTD.appendChild(document.createTextNode("Reference\n" + reference.modelIdentification));
                 } else {
                     tempTD = table.lastChild.appendChild(document.createElement("td"));
+                    tempData = '';
                     if (Object.keys(reference.loci).includes(allele)) {
-                        tempData = '';
                         reference.loci[allele].sort(function (a, b) {
                             return Number(a) - Number(b);
                         });
@@ -89,6 +93,12 @@ function createResultsTable(reference, query, concordancePercentage) {
                             tempData += num + ',';
                         }
                         tempData = tempData.slice(0, tempData.length - 1);
+
+                        // if ref doesn't match query
+                        if (tempData != table.children[table.children.length - 2].children[alleles.indexOf(allele)].innerHTML) {
+                            tempTD.style.color = "#ff0000";
+                            table.children[table.children.length - 2].children[alleles.indexOf(allele)].style.color = "#ff0000";
+                        }
                     }
                     tempTD.appendChild(document.createTextNode(tempData));
                 }
@@ -96,50 +106,9 @@ function createResultsTable(reference, query, concordancePercentage) {
         }
     }
 
+    let percentage = table.firstChild.appendChild(document.createElement('th'));
+    percentage.appendChild(document.createTextNode(concordancePercentage + "%"));
+    percentage.rowSpan = 3;
 
-
+    return table;
 }
-/*
-    let data;
-    let text;
-    let alleleHeader;
-    for (let allele of alleles) {
-  
-      row = document.createElement("tr");
-      alleleHeader = document.createElement("th");
-      alleleHeader.appendChild(document.createTextNode(allele));
-      row.appendChild(alleleHeader);
-      data = document.createElement("td");
-  
-      if (Object.keys(query.loci).includes(allele)) {
-        text = '';
-        query.loci[allele].sort(function (a, b) {
-          return Number(a) - Number(b);
-        });
-        for (let num of query.loci[allele]) {
-          text += num + ', ';
-        }
-        text = text.slice(0, text.length - 2);
-        data.appendChild(document.createTextNode(text));
-      }
-      row.appendChild(data);
-      data = document.createElement("td");
-      if (Object.keys(reference.loci).includes(allele)) {
-        text = '';
-        reference.loci[allele].sort(function (a, b) {
-          return Number(a) - Number(b);
-        });
-        for (let num of reference.loci[allele]) {
-          text += num + ', ';
-        }
-        text = text.slice(0, text.length - 2);
-        if (text != row.lastChild.innerHTML) {
-          data.style.color = "#ff0000";
-        }
-        data.appendChild(document.createTextNode(text));
-      }
-      row.appendChild(data);
-      table.appendChild(row);
-    }
-  }
-  */
