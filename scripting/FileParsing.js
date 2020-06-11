@@ -111,6 +111,7 @@ function csvHandeling(array){
         }
     }
     
+
     //object maker 
     let objArray = [];
     let loci = {};
@@ -124,7 +125,7 @@ function csvHandeling(array){
                         array[y][x].splice(i);
                     }
                 }
-                loci[array[0][x]] = [array[y][x]];
+                loci[array[0][x]] = array[y][x];
             }
         }
         tempObj.loci = loci;
