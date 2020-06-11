@@ -63,7 +63,7 @@ function calculateConcordance(reference, query, mode = 0, algorithm = 0, ameloge
           //calculates the number of query alleles
           numQueryAlleles += query.loci[keyName].length;
           
-          //claculates the number of reference alleles
+          //calculates the number of reference alleles
           numReferenceAlleles += reference.loci[referenceAmelogeninName].length;
         }
       }
@@ -89,8 +89,10 @@ function calculateConcordance(reference, query, mode = 0, algorithm = 0, ameloge
         //calculates the number of query alleles
         numQueryAlleles += query.loci[keyName].length;
 
-        //claculates the number of reference alleles
-        numReferenceAlleles += reference.loci[keyName].length;
+        //calculates the number of reference alleles
+        if (keyName in reference.loci){
+          numReferenceAlleles += reference.loci[keyName].length;
+        }
       } else if (keyName == queryAmelogeninName && amelogenin) {
         //in the case that we consider amelogenin
         if (referenceAmelogeninName != " " && query.loci[keyName].length > 0 && reference.loci[referenceAmelogeninName].length > 0) {
@@ -133,8 +135,10 @@ function calculateConcordance(reference, query, mode = 0, algorithm = 0, ameloge
         //calculates the number of reference alleles
         numReferenceAlleles += reference.loci[keyName].length;
 
-        //claculates the number of query alleles
-        numQueryAlleles += query.loci[keyName].length;
+        //calculates the number of query alleles
+        if (keyName in query.loci) {
+          numQueryAlleles += query.loci[keyName].length;
+        }
       } else if (keyName == referenceAmelogeninName && amelogenin) {
         //in the case that we consider amelogenin
         if (queryAmelogeninName != " " && reference.loci[keyName].length > 0 && query.loci[queryAmelogeninName].length > 0) {
