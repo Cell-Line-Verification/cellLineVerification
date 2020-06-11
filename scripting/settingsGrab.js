@@ -17,7 +17,7 @@ function settingsGrab(){
     else if(document.getElementById("mastersVQuerySelect").checked){
         settings.algorithm = 1;
     }
-    else if(document.getElementById("mastersVRefernceSelect").checked){
+    else if(document.getElementById("mastersVReferenceSelect").checked){
         settings.algorithm = 2;
     }
     if(document.getElementById("includeAmelogeninInput").checked){
