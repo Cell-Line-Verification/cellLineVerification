@@ -1,3 +1,5 @@
+//Author: Arnav Kumar and Bruce Liu
+
 // This function takes in the parameters for a tanabe-style reference and returns the concordance amount.
 // The mode is an int with 0 being non-empty markers, 1 being query markers, and 2 being reference markers.
 //The algorithm is an int with 0 being tanabe, 1 being masters vs query, and 2 being masters vs. reference.
