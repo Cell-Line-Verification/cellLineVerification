@@ -40,13 +40,13 @@ function fileParse(stringResults, fileType){
         return csvHandeling(valuesArray);
     } else {
         //yield error because wrong file type
-        alert("Incorrect File Type: please enter a CVS file and try again.");
+        alert("Incorrect File Type: please enter a CSV file and try again.");
     }
 }
 
 function csvHandeling(array){
       //needs to clean extra commas to keep data together
-      //there are commas within cells so it switches them with "|" to avoid splitting the cells
+      //there are commas within cells so it switches them with "^" to avoid splitting the cells
       let isComma = false;
       for(y = 0; y < array.length; y++){
           for(x = 0; x < array[y].length; x++){
