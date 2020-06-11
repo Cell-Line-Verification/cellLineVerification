@@ -46,7 +46,7 @@ function fileParse(stringResults, fileType){
 
 function csvHandeling(array){
       //needs to clean extra commas to keep data together
-      //there are commas within cells so it switches them with "|" to avoid splitting the cells
+      //there are commas within cells so it switches them with "^" to avoid splitting the cells
       let isComma = false;
       for(y = 0; y < array.length; y++){
           for(x = 0; x < array[y].length; x++){
