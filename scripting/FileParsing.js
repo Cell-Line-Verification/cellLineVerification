@@ -40,7 +40,7 @@ function fileParse(stringResults, fileType){
         return csvHandeling(valuesArray);
     } else {
         //yield error because wrong file type
-        alert("Incorrect File Type: please enter a CVS file and try again.");
+        alert("Incorrect File Type: please enter a CSV file and try again.");
     }
 }
 
